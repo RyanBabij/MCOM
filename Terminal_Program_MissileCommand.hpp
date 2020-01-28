@@ -97,6 +97,7 @@ class Terminal_Program_MissileCommand: public Terminal_Program
    //void execute(int lineNumber);
 
    void keyboardEvent (Keyboard* _keyboard) override;
+   bool mouseEvent (Mouse* _mouse) override;
 
 };
 

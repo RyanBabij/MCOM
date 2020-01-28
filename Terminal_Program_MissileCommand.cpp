@@ -88,8 +88,8 @@ void Terminal_Program_MissileCommand::keyboardEvent (Keyboard* _keyboard)
 // used to do it anyways.
 std::string Terminal_Program_MissileCommand::render()
 {
-   //terminal->fill(255,0,0,255);
-   terminal->fill(rngLehmer.rand8(),rngLehmer.rand8(),rngLehmer.rand8(),255);
+   terminal->fill(127,0,255,255);
+   //terminal->fill(rngLehmer.rand8(),rngLehmer.rand8(),rngLehmer.rand8(),255);
 
    //Renderer::placeTexture4(0,0,64,32,&TEX_MCOM_CITY,true);
 
@@ -106,6 +106,20 @@ std::string Terminal_Program_MissileCommand::render()
    // std::string retRender = output;
    // output="";
    // return retRender;
+}
+
+bool Terminal_Program_MissileCommand::mouseEvent (Mouse* _mouse)
+{
+   if (_mouse->isLeftClick)
+   {
+      if ( terminal->mouseX != -1 && terminal->mouseY != -1 )
+      {
+         std::cout<<"Missile to "<<terminal->mouseX<<", "<<terminal->mouseY<<"\n";
+         _mouse->isLeftClick=false;
+         return true;
+      }
+   }
+   return false;
 }
 
 #endif

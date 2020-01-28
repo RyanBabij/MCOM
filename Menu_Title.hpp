@@ -79,12 +79,6 @@ class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTi
       guiManager.render();
    }
   
-   /* MouseInterface:: */
-   bool mouseEvent (Mouse* _mouse) override
-   {
-      return false;
-   }
-   
    void logicTick() override
    {
 
@@ -95,6 +89,12 @@ class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTi
       terminal.keyboardEvent(_keyboard);
       return false;
    }
+   bool mouseEvent(Mouse* _mouse) override
+   {
+      terminal.mouseEvent(_mouse);
+      return false;
+   }
+   
    
    bool stealKeyboard() override
    {
