@@ -44,6 +44,27 @@ class City: public Sprite
    }
 };
 
+class MissileBase: public Sprite
+{
+   // we may want to implement a sprite class for Terminal
+   public:
+   bool isDestroyed;
+   // texture
+   // state
+   // audio files
+   
+   MissileBase()
+   {
+      isDestroyed=false;
+   }
+   
+    virtual Texture* currentTexture() override
+   {
+      return &TEX_MCOM_MISSILE;;
+   }
+};
+
+
 #include <Game/Terminal/Terminal_Program.cpp>
 
 #include <Math/Random/RandomLehmer.hpp>
@@ -54,6 +75,15 @@ class Terminal_Program_MissileCommand: public Terminal_Program
    public:
    
    City city1;
+   City city2;
+   City city3;
+   City city4;
+   City city5;
+   City city6;
+   
+   MissileBase missile1;
+   MissileBase missile2;
+   MissileBase missile3;
 
 
    Terminal_Program_MissileCommand(Terminal * ptrTerminal);

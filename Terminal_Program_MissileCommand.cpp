@@ -15,9 +15,30 @@
 
 Terminal_Program_MissileCommand::Terminal_Program_MissileCommand(Terminal * term): Terminal_Program(term)
 {
-   city1.setCoord(0,0,64,32);
+   missile1.setCoord(0,0,32,32);
    
+   city1.setCoord(32,0,64,16);
+   city2.setCoord(64,0,96,16);
+   city3.setCoord(96,0,128,16);
+   
+   missile2.setCoord(128,0,160,32);
+
+   city4.setCoord(160,0,192,16);
+   city5.setCoord(192,0,224,16);
+   city6.setCoord(224,0,256,16);
+   
+   missile3.setCoord(256,0,288,32);
+   
+   terminal->addSprite(&missile1);
    terminal->addSprite(&city1);
+   terminal->addSprite(&city2);
+   terminal->addSprite(&city3);
+   terminal->addSprite(&missile2);
+   terminal->addSprite(&city4);
+   terminal->addSprite(&city5);
+   terminal->addSprite(&city6);
+   terminal->addSprite(&missile3);
+
 }
 
 std::string Terminal_Program_MissileCommand::init (Vector <std::string>* vArg)
@@ -32,7 +53,7 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
 
 void Terminal_Program_MissileCommand::keyboardEvent (Keyboard* _keyboard)
 {
-   // if (!active) { return; }
+   if (!active) { return; }
    // //std::string allowedInputs = " !@#$%^&*()\"\'\\=+-/";
    // if (easi.isWaitingInput > 0 && _keyboard->keyWasPressed)
    // {
