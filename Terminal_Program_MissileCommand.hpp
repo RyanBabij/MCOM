@@ -9,7 +9,7 @@
    
    It's basically the same as the original game. Use the mouse
    cursor to aim, and shoot from one of three missile batteries
-   using the A S D keys.
+   using the A S D keys. Left-click will use the nearest free battery.
    
    Missiles will rain down, getting faster over time. The player's
    job is to shoot them down using their three counter-missile
@@ -23,39 +23,49 @@
    
 */
 
-class City
+class City: public Sprite
 {
    // we may want to implement a sprite class for Terminal
    public:
-   
+   bool isDestroyed;
    // texture
    // state
    // audio files
    
    City()
    {
+      isDestroyed=false;
+      //texture = &TEX_MCOM_CITY;
+   }
+   
+    virtual Texture* currentTexture() override
+   {
+      return &TEX_MCOM_CITY;;
    }
 };
 
 #include <Game/Terminal/Terminal_Program.cpp>
 
+#include <Math/Random/RandomLehmer.hpp>
+
 class Terminal_Program_MissileCommand: public Terminal_Program
 {
+   RandomLehmer rngLehmer;
    public:
    
-   bool city1;
-   bool city2;
+   City city1;
+
 
    Terminal_Program_MissileCommand(Terminal * ptrTerminal);
-   
+
    std::string init (Vector <std::string>* vArg) override;
-   
+
    std::string render() override;
-   
+
    //run the code for 1 emulated cycle returns possible output
    void cycle() override;
    //void execute(int lineNumber);
-   
+
    void keyboardEvent (Keyboard* _keyboard) override;
 
 };

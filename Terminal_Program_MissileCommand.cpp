@@ -7,12 +7,17 @@
    
    Implementation of Terminal_Program_MissileCommand.hpp.
    
+   Note we don't need to worry about sprite bounding boxes right now because
+   incoming missiles only evaluate when they hit the ground.
 */
 
 #include "Terminal_Program_MissileCommand.hpp"
 
 Terminal_Program_MissileCommand::Terminal_Program_MissileCommand(Terminal * term): Terminal_Program(term)
 {
+   city1.setCoord(0,0,64,32);
+   
+   terminal->addSprite(&city1);
 }
 
 std::string Terminal_Program_MissileCommand::init (Vector <std::string>* vArg)
@@ -58,9 +63,18 @@ void Terminal_Program_MissileCommand::keyboardEvent (Keyboard* _keyboard)
 
 // Program can return update in text mode, or entire screen in graphics mode.
 // Output string should be wiped 
+// Might as well just write directly to Terminal screen because that's how they
+// used to do it anyways.
 std::string Terminal_Program_MissileCommand::render()
 {
+   //terminal->fill(255,0,0,255);
+   terminal->fill(rngLehmer.rand8(),rngLehmer.rand8(),rngLehmer.rand8(),255);
+
+   //Renderer::placeTexture4(0,0,64,32,&TEX_MCOM_CITY,true);
+
    return "AYY LMAO\n";
+   
+   
    // //Protip: We can't necessarily return if inactive, because there may be a final render call
    // // or batch cycles.
    // // Intead just check if we have output to return.
