@@ -15,7 +15,7 @@
 #include <Math/Random/RandomLehmer.hpp>
 
 
-class GameScript: public IdleTickInterface
+class GameScript: public IdleTickInterface, public LogicTickInterface
 {
    RandomLehmer rngLehmer;
    public:
@@ -50,9 +50,10 @@ class GameScript: public IdleTickInterface
      terminal->addProgram(&mcom);
    }
    
-   void idleTick()
+   void idleTick() override
    {
       if (terminal==0) { return; }
+      
 
       //terminal->amountStatic=255;
    //   terminal->fill(rngLehmer.rand8(),rngLehmer.rand8(),rngLehmer.rand8(),255);
@@ -61,6 +62,12 @@ class GameScript: public IdleTickInterface
       return;
      
    }
+   
+   void logicTick() override
+   {
+      mcom.cycle();
+   }
+   
 };
 
 #endif

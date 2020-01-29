@@ -37,6 +37,7 @@ static Texture TEX_MCOM_CITY;
 static Texture TEX_MCOM_MISSILE;
 
 Texture texRuntime; /* Test of runtime graphics creation. */
+Texture texMissile;
 
 
 void loadTextureVerbose(const std::string _path, Texture* _texture)
@@ -104,6 +105,11 @@ void loadTextures() // Testing some multithreading here. Probably shouldn't beca
   //bindNearestNeighbour(&TEX_TERMINAL_BKG,COMPRESS_TEXTURES);
   
   texRuntime.create(320,200,0,true);
+  texMissile.create(1,1,0,true);
+  texMissile.setPixel(0,0,0,0);
+  texMissile.setPixel(0,0,1,0);
+  texMissile.setPixel(0,0,2,0);
+  texMissile.setPixel(0,0,3,255);
 
     
 }

@@ -81,7 +81,6 @@ class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTi
   
    void logicTick() override
    {
-
    }
    
    bool keyboardEvent(Keyboard* _keyboard) override
@@ -95,31 +94,9 @@ class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTi
       return false;
    }
    
-   
    bool stealKeyboard() override
    {
       return guiManager.stealKeyboard();
-   }
-   
-   
-   //Flicker the terminal just for fun.
-   void flicker()
-   {
-      if (Random::oneIn(3))
-      {
-         --terminalFlicker;
-         --terminalFlicker;
-         --terminalFlicker;
-         if (terminalFlicker < 230 ) { terminalFlicker = 230; }
-         //terminalFlicker = 255;
-      }
-      else if (Random::oneIn(3))
-      {
-         ++terminalFlicker;
-         ++terminalFlicker;
-         ++terminalFlicker;
-         if (terminalFlicker > 255 ) { terminalFlicker = 255; }
-      }
    }
    
    void idleTick() override

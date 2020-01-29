@@ -48,6 +48,19 @@ std::string Terminal_Program_MissileCommand::init (Vector <std::string>* vArg)
 
 void Terminal_Program_MissileCommand::cycle() // for now this is being called directly before render()
 {
+   
+   if ( rngLehmer.rand8() == 0 )
+   {
+      std::cout<<"ay\n";
+      
+      // spawn missile at random x, travelling random trajectory. However trajectory should impact ground somewhere. We can pick a random source x and random target x.
+      
+      unsigned int sourceX = rngLehmer.rand32()%320; // 0-319
+      unsigned int targetX = rngLehmer.rand32()%320;
+      
+      Missile m;
+   }
+   
    return;
 }
 

@@ -44,6 +44,26 @@ class City: public Sprite
    }
 };
 
+class Missile: public Sprite
+{
+   public:
+   
+   double speedX,speedY;
+   Vector <HasXY*> vTrail;
+   
+   virtual ~Missile()
+   {
+   }
+   Missile()
+   {
+   }
+   virtual Texture* currentTexture() override
+   {
+      return &TEX_MCOM_MISSILE;;
+   }
+   
+};
+
 class MissileBase: public Sprite
 {
    // we may want to implement a sprite class for Terminal
@@ -84,6 +104,8 @@ class Terminal_Program_MissileCommand: public Terminal_Program
    MissileBase missile1;
    MissileBase missile2;
    MissileBase missile3;
+   
+   Vector <Missile> vMissile;
 
 
    Terminal_Program_MissileCommand(Terminal * ptrTerminal);

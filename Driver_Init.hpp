@@ -77,6 +77,8 @@ void init()
    globalGuiManager.add(&menuTitle);
    idleManager.add(&gameScript);
    idleManager.add(&menuTitle);
+   //logicTickManager.add(&menuTitle);
+   logicTickManager.add(&gameScript);
    
 }
 
