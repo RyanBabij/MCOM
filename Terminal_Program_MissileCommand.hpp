@@ -56,7 +56,8 @@ class Missile: public Sprite
    
    double speedX,speedY;
    // maybe speedy is always 1, and speedx is variable from 0-1 (up to 45 degrees)
-   Vector <HasXY*> vTrail;
+   Vector <double> vTrailX;
+   Vector <double> vTrailY;
    // each missile leaves a trail which disappears after being destroyed
    
    unsigned short int blastSize; // counts up for x frames after impact.
@@ -87,6 +88,9 @@ class Missile: public Sprite
       y2=198;
       
       blastSize=0;
+      
+      vTrailX.push(currentX);
+      vTrailY.push(currentY);
    }
    virtual Texture* currentTexture() override
    {
@@ -108,7 +112,7 @@ class Missile: public Sprite
          return;
       }
       currentY-=speedY;
-      if (currentY<0)
+      if (currentY<=0)
       {
          currentY=0;
          
@@ -122,6 +126,9 @@ class Missile: public Sprite
       currentX+=speedX;
       x1=currentX;
       x2=x1+1;
+      
+      vTrailX.push(currentX);
+      vTrailY.push(currentY);
    }
    
 };
@@ -159,6 +166,11 @@ class Terminal_Program_MissileCommand: public Terminal_Program
    double minMissileSpeed;
    double missileSpeed; // maximum ySpeed.
    unsigned long int nCycle;
+   
+   const unsigned char BKG_R=64;
+   const unsigned char BKG_G=0;
+   const unsigned char BKG_B=128;
+
    public:
    
    City city1;

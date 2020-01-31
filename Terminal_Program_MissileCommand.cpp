@@ -20,17 +20,17 @@ Terminal_Program_MissileCommand::Terminal_Program_MissileCommand(Terminal * term
    
    missile1.setCoord(0,0,32,MISSILE_HEIGHT);
    
-   city1.setCoord(32,0,64,CITY_HEIGHT);
-   city2.setCoord(64,0,96,CITY_HEIGHT);
-   city3.setCoord(96,0,128,CITY_HEIGHT);
+   city1.setCoord(40,0,72,CITY_HEIGHT);
+   city2.setCoord(72,0,104,CITY_HEIGHT);
+   city3.setCoord(104,0,136,CITY_HEIGHT);
    
-   missile2.setCoord(128,0,160,MISSILE_HEIGHT);
+   missile2.setCoord(144,0,176,MISSILE_HEIGHT);
 
-   city4.setCoord(160,0,192,CITY_HEIGHT);
-   city5.setCoord(192,0,224,CITY_HEIGHT);
-   city6.setCoord(224,0,256,CITY_HEIGHT);
+   city4.setCoord(184,0,216,CITY_HEIGHT);
+   city5.setCoord(216,0,248,CITY_HEIGHT);
+   city6.setCoord(248,0,280,CITY_HEIGHT);
    
-   missile3.setCoord(256,0,288,MISSILE_HEIGHT);
+   missile3.setCoord(288,0,320,MISSILE_HEIGHT);
    
    terminal->addSprite(&missile1);
    terminal->addSprite(&city1);
@@ -48,7 +48,8 @@ Terminal_Program_MissileCommand::Terminal_Program_MissileCommand(Terminal * term
    
    // set bkg colour
    //terminal->fill(127,0,255,255);
-   terminal->fill(64,0,128,255);
+
+   terminal->fill(BKG_R, BKG_G, BKG_B,255);
 
 }
 
@@ -64,9 +65,34 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
    for (int i=0;i<vMissile.size();++i)
    {
       // I'm not sure why there's a y-offset but it doesn't surprise me at all.
-      terminal->setPixel(vMissile(i)->currentX,vMissile(i)->currentY+1,255,255,255);
+      terminal->setPixel(vMissile(i)->currentX,vMissile(i)->currentY+1,180,180,180);
       vMissile(i)->cycle();
-      //if missile is impacted, draw blast.
+      
+      // if missile impacts, clear it's trail.
+      if (vMissile(i)->blastSize==1)
+      {
+         for (int i2=0;i2<vMissile(i)->vTrailX.size();++i2)
+         {
+            terminal->setPixel(vMissile(i)->vTrailX(i2),vMissile(i)->vTrailY(i2)+1,BKG_R, BKG_G, BKG_B);
+         }
+         
+         // check X collision
+         
+      }
+      
+      if ( vMissile(i)->blastSize>0)
+      {
+         for (int i2=0;i2<vMissile(i)->blastSize;++i2)
+         {
+            terminal->setPixel(vMissile(i)->currentX-i2,vMissile(i)->currentY+1,255,0,0);
+            terminal->setPixel(vMissile(i)->currentX+i2,vMissile(i)->currentY+1,255,0,0);
+            
+            //terminal->setPixel(vMissile(i)->currentX,vMissile(i)->currentY+1,255,0,0);
+            //terminal->setPixel(vMissile(i)->currentX,vMissile(i)->currentY+1,255,0,0);
+         }
+
+      }
+
    }
    
    if (nCycle %500 == 0)
