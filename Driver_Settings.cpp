@@ -16,7 +16,7 @@
 unsigned short int PROGRAM_CYCLES_PER_TICK = 1;
 
   // SYSTEM STRINGS
-const std::string VERSION = "0.0.005 Win32 dev";
+const std::string VERSION = "0.0.006 Win32 dev";
 const std::string G_WINDOW_TITLE = "MCOM";
 const std::string SAVE_FOLDER_PATH = "savedata";
 
@@ -61,7 +61,7 @@ int CURRENT_ANIMATION_FRAME = 0; /* 0 - 99 */
   // RENDER AND FRAME STUFF
 
 /* Double buffering will make the frame transitions smoother, but it is slower. */
-const bool DOUBLE_BUFFERING = false;
+const bool DOUBLE_BUFFERING = true;
 
 /* BUSY_WAIT will cause the program to enter a busy wait if rendering is almost ready. Not sure if it works very well. */
 const bool BUSY_WAIT = false;

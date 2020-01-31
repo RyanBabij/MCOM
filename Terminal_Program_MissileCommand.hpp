@@ -48,18 +48,80 @@ class Missile: public Sprite
 {
    public:
    
+   short int sourceX,targetX;
+   
+   double currentX;
+   
+   double currentY;
+   
    double speedX,speedY;
+   // maybe speedy is always 1, and speedx is variable from 0-1 (up to 45 degrees)
    Vector <HasXY*> vTrail;
+   // each missile leaves a trail which disappears after being destroyed
+   
+   unsigned short int blastSize; // counts up for x frames after impact.
    
    virtual ~Missile()
    {
    }
-   Missile()
+   Missile(unsigned short int _sourceX, unsigned short int _targetX, double speed)
    {
+      sourceX=_sourceX;
+      targetX=_targetX;
+      
+      currentX=sourceX;
+      currentY=199;
+      
+      speedY=speed;
+      speedX = targetX-sourceX;
+      //speedX = speedX/(200*speedY);
+      speedX = speedX/(200/speedY);
+      
+      //missile will always move down by 1 y pixel per cycle, however
+      // x movement is variable. y height is fixed at 200px, so we can
+      // easily calculate the x movement per tick.
+      
+      x1=sourceX;
+      x2=sourceX+1;
+      y1=199;
+      y2=198;
+      
+      blastSize=0;
    }
    virtual Texture* currentTexture() override
    {
-      return &TEX_MCOM_MISSILE;;
+      return &texMissile;
+   }
+   
+   void cycle()
+   {
+      if (currentY==0)
+      {
+         if ( blastSize != 0 )
+         {
+            ++blastSize;
+            if (blastSize==10)
+            {
+               blastSize=0;
+            }
+         }
+         return;
+      }
+      currentY-=speedY;
+      if (currentY<0)
+      {
+         currentY=0;
+         
+         // impact
+         ++blastSize;
+      }
+      
+      y1=currentY;
+      y2=currentY+1;
+      
+      currentX+=speedX;
+      x1=currentX;
+      x2=x1+1;
    }
    
 };
@@ -80,7 +142,7 @@ class MissileBase: public Sprite
    
     virtual Texture* currentTexture() override
    {
-      return &TEX_MCOM_MISSILE;;
+      return &TEX_MCOM_MISSILE;
    }
 };
 
@@ -92,6 +154,11 @@ class MissileBase: public Sprite
 class Terminal_Program_MissileCommand: public Terminal_Program
 {
    RandomLehmer rngLehmer;
+   
+   unsigned long int missileIntensity;
+   double minMissileSpeed;
+   double missileSpeed; // maximum ySpeed.
+   unsigned long int nCycle;
    public:
    
    City city1;
@@ -105,7 +172,7 @@ class Terminal_Program_MissileCommand: public Terminal_Program
    MissileBase missile2;
    MissileBase missile3;
    
-   Vector <Missile> vMissile;
+   Vector <Missile*> vMissile;
 
 
    Terminal_Program_MissileCommand(Terminal * ptrTerminal);

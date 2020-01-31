@@ -16,6 +16,8 @@
 
 class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTickInterface
 {
+   bool intro; // display the game info
+   
    public:
 
    Terminal terminal;
@@ -42,6 +44,8 @@ class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTi
       terminalFlicker=255;
       
       guiManager.add(&terminal);
+      
+      intro=true;
    }
    
    void setFont(Wildcat::Font* _font) override
@@ -85,6 +89,11 @@ class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTi
    
    bool keyboardEvent(Keyboard* _keyboard) override
    {
+      // if ( _keyboard->isPressed(Keyboard::SPACE))
+      // {
+         // intro=false;
+      // }
+      
       terminal.keyboardEvent(_keyboard);
       return false;
    }
