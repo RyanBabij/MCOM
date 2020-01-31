@@ -15,6 +15,9 @@
 
 Terminal_Program_MissileCommand::Terminal_Program_MissileCommand(Terminal * term): Terminal_Program(term)
 {
+   intro=true;
+   gameOver=false;
+   
    const int CITY_HEIGHT = 16;
    const int MISSILE_HEIGHT = 32;
    
@@ -60,7 +63,26 @@ std::string Terminal_Program_MissileCommand::init (Vector <std::string>* vArg)
 
 void Terminal_Program_MissileCommand::cycle() // for now this is being called directly before render()
 {
-   //terminal->putChar(0,0,'A');
+   if (gameOver)
+   {
+      std::string strTime = DataTools::toString(gameTimer.fullSeconds);
+      terminal->putString(0,1,"GAME OVER. FINAL TIME: "+strTime);
+      return;
+   }
+   
+   else if ( intro )
+   {
+      terminal->putString(0,0,"INTRO TEXT");
+      return;
+   }
+   else
+   {
+      gameTimer.update();
+      std::string strTime = DataTools::toString(gameTimer.seconds);
+      terminal->putString(0,0,strTime);
+   }
+
+   //terminal->setTextOverlay(strTime);
    
    ++nCycle;
    
@@ -89,6 +111,14 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
          missile1.getHit(vMissile(i)->currentX);
          missile2.getHit(vMissile(i)->currentX);
          missile3.getHit(vMissile(i)->currentX);
+         
+         // check gameover
+         
+         if (city1.isDestroyed && city2.isDestroyed && city3.isDestroyed && city3.isDestroyed
+         &&  city4.isDestroyed && city5.isDestroyed && city6.isDestroyed)
+         {
+            gameOver=true;
+         }
 
       }
       
@@ -158,17 +188,15 @@ void Terminal_Program_MissileCommand::keyboardEvent (Keyboard* _keyboard)
 {
    if (!active) { return; }
    // //std::string allowedInputs = " !@#$%^&*()\"\'\\=+-/";
-   // if (easi.isWaitingInput > 0 && _keyboard->keyWasPressed)
-   // {
-      // if (_keyboard->lastKey == Keyboard::ENTER)
-      // {
-         // easi.isWaitingInput--;
-         // std::cout<<"INPUT is: "<<input<<"\n";
-         // easi.vInput.push(input);
-         // input="";
-         // output+="\n";
-         // _keyboard->clearAll();
-      // }
+   if (_keyboard->keyWasPressed)
+   {
+      if (_keyboard->lastKey == Keyboard::SPACE && intro)
+      {
+         terminal->putString(0,0,"                 ");
+         intro=false;
+         gameTimer.start();
+         _keyboard->clearAll();
+      }
       // else if (_keyboard->lastKey == Keyboard::BACKSPACE)
       // {
          // if ( input.size() > 0 ) { input.pop_back(); output+='\b'; }
@@ -182,7 +210,7 @@ void Terminal_Program_MissileCommand::keyboardEvent (Keyboard* _keyboard)
          // _keyboard->clearAll();
          // return;
       // }
-   // }
+   }
 }
 
 // Program can return update in text mode, or entire screen in graphics mode.

@@ -186,6 +186,9 @@ class Terminal_Program_MissileCommand: public Terminal_Program
 {
    RandomLehmer rngLehmer;
    
+   bool intro; // true when player starts game
+   bool gameOver; // true if game is finished
+   
    unsigned long int missileIntensity;
    double minMissileSpeed;
    double missileSpeed; // maximum ySpeed.
