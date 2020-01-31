@@ -38,9 +38,21 @@ class City: public Sprite
       //texture = &TEX_MCOM_CITY;
    }
    
-    virtual Texture* currentTexture() override
+   virtual Texture* currentTexture() override
    {
-      return &TEX_MCOM_CITY;;
+      if ( isDestroyed )
+      {
+         return &TEX_MCOM_CITY_RIP;
+      }
+      return &TEX_MCOM_CITY;
+   }
+   
+   void getHit(const int missileX)
+   {
+      if (isCollisionX(missileX))
+      {
+         isDestroyed=true;
+      }
    }
 };
 
@@ -147,9 +159,21 @@ class MissileBase: public Sprite
       isDestroyed=false;
    }
    
-    virtual Texture* currentTexture() override
+   virtual Texture* currentTexture() override
    {
+      if ( isDestroyed )
+      {
+         return &TEX_MCOM_MISSILE_RIP;
+      }
       return &TEX_MCOM_MISSILE;
+   }
+   
+   void getHit(const int missileX)
+   {
+      if (isCollisionX(missileX))
+      {
+         isDestroyed=true;
+      }
    }
 };
 

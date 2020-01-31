@@ -9,5 +9,5 @@
 */
 	#include <string>
 
-	const std::string COMPILE_COUNT = "315";
+	const std::string COMPILE_COUNT = "332";
 #endif

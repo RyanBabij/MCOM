@@ -60,6 +60,8 @@ std::string Terminal_Program_MissileCommand::init (Vector <std::string>* vArg)
 
 void Terminal_Program_MissileCommand::cycle() // for now this is being called directly before render()
 {
+   //terminal->putChar(0,0,'A');
+   
    ++nCycle;
    
    for (int i=0;i<vMissile.size();++i)
@@ -77,7 +79,17 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
          }
          
          // check X collision
+         city1.getHit(vMissile(i)->currentX);
+         city2.getHit(vMissile(i)->currentX);
+         city3.getHit(vMissile(i)->currentX);
+         city4.getHit(vMissile(i)->currentX);
+         city5.getHit(vMissile(i)->currentX);
+         city6.getHit(vMissile(i)->currentX);
          
+         missile1.getHit(vMissile(i)->currentX);
+         missile2.getHit(vMissile(i)->currentX);
+         missile3.getHit(vMissile(i)->currentX);
+
       }
       
       if ( vMissile(i)->blastSize>0)

@@ -34,7 +34,9 @@ static Texture TEX_TERMINAL_GRID;
 static Texture TEX_TERMINAL_BKG;
 
 static Texture TEX_MCOM_CITY;
+static Texture TEX_MCOM_CITY_RIP;
 static Texture TEX_MCOM_MISSILE;
+static Texture TEX_MCOM_MISSILE_RIP;
 
 Texture texRuntime; /* Test of runtime graphics creation. */
 Texture texMissile;
@@ -79,7 +81,9 @@ void loadTextures() // Testing some multithreading here. Probably shouldn't beca
     //preloadTextureVerbose("Textures/43Grid.png",&TEX_TERMINAL_GRID);
     //preloadTextureVerbose("Textures/Background5.png",&TEX_TERMINAL_BKG);
     preloadTextureVerbose("Textures/Game/cityt.png",&TEX_MCOM_CITY);
+    preloadTextureVerbose("Textures/Game/cityript.png",&TEX_MCOM_CITY_RIP);
     preloadTextureVerbose("Textures/Game/missilet.png",&TEX_MCOM_MISSILE);
+    preloadTextureVerbose("Textures/Game/missileript.png",&TEX_MCOM_MISSILE_RIP);
 
 #if defined THREAD_ALL || defined THREADED_TEXTURE_LOADING
   });
@@ -99,7 +103,9 @@ void loadTextures() // Testing some multithreading here. Probably shouldn't beca
 #endif
 
   bindNearestNeighbour(&TEX_MCOM_CITY,COMPRESS_TEXTURES);
+  bindNearestNeighbour(&TEX_MCOM_CITY_RIP,COMPRESS_TEXTURES);
   bindNearestNeighbour(&TEX_MCOM_MISSILE,COMPRESS_TEXTURES);
+  bindNearestNeighbour(&TEX_MCOM_MISSILE_RIP,COMPRESS_TEXTURES);
   
   //bindNearestNeighbour(&TEX_TERMINAL_GRID,COMPRESS_TEXTURES);
   //bindNearestNeighbour(&TEX_TERMINAL_BKG,COMPRESS_TEXTURES);
