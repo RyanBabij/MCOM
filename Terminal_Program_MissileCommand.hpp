@@ -23,6 +23,8 @@
    
 */
 
+#include <Math/Geometry/Geometry.hpp> // for math vectors
+
 class City: public Sprite
 {
    // we may want to implement a sprite class for Terminal
@@ -58,9 +60,13 @@ class City: public Sprite
 
 class Missile: public Sprite
 {
+   double slope;
+   
+   MathVector2D <double> vector;
+         
    public:
    
-   short int sourceX,targetX;
+   short int sourceX,sourceY,targetX,targetY;
    
    double currentX;
    
@@ -77,18 +83,49 @@ class Missile: public Sprite
    virtual ~Missile()
    {
    }
-   Missile(unsigned short int _sourceX, unsigned short int _targetX, double speed)
+   Missile(unsigned short int _sourceX, unsigned short int _sourceY, unsigned short int _targetX, unsigned short int _targetY, double speed)
    {
       sourceX=_sourceX;
+      sourceY=_sourceY;
       targetX=_targetX;
+      targetY=_targetY;
+
+      // convert source,target into velocity vector.
+      vector.set(_sourceX,_sourceY,_targetX,_targetY);
+      vector.normalise();
+      vector.setMagnitude(speed);
+      std::cout<<"Vector from: "<<_sourceX<<", "<<_sourceY<<" to "<<_targetX<<", "<<_targetY<<"\n";
+      std::cout<<"Velocity: "<<vector.getXChange()<<", "<<vector.getYChange()<<"\n";
+
+
+      int distanceY = _sourceY - _targetY;
+      int distanceX = sourceX - _targetX;
       
+      if ( distanceX == 0 && distanceY == 0 )
+      {
+         slope=0;
+      }
+      else if (distanceX == 0 )
+      {
+         slope=1;
+      }
+      else if (distanceY == 0 )
+      {
+         slope=0;
+      }
+      else
+      {
+         slope = (double)distanceX/distanceY;
+      }
+
       currentX=sourceX;
-      currentY=199;
+      currentY=sourceY;
       
       speedY=speed;
+      
       speedX = targetX-sourceX;
       //speedX = speedX/(200*speedY);
-      speedX = speedX/(200/speedY);
+      speedX = speedX/(distanceY/speedY);
       
       //missile will always move down by 1 y pixel per cycle, however
       // x movement is variable. y height is fixed at 200px, so we can
@@ -111,6 +148,11 @@ class Missile: public Sprite
    
    void cycle()
    {
+      // impact and blast calculations go here
+      if ( (int)currentX == targetX && (int)currentY == targetY )
+      {
+         return;
+      }
       if (currentY==0)
       {
          if ( blastSize != 0 )
@@ -123,7 +165,10 @@ class Missile: public Sprite
          }
          return;
       }
-      currentY-=speedY;
+      
+      currentX+=vector.getXChange();
+      currentY-=vector.getYChange();
+      
       if (currentY<=0)
       {
          currentY=0;
@@ -134,8 +179,7 @@ class Missile: public Sprite
       
       y1=currentY;
       y2=currentY+1;
-      
-      currentX+=speedX;
+
       x1=currentX;
       x2=x1+1;
       

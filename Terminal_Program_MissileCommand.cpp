@@ -142,7 +142,7 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
       ++missileIntensity;
       missileSpeed+=0.1;
    }
-   
+   return;
    for (unsigned long int i=0;i<missileIntensity;++i)
    {
       if (rngLehmer.rand8()<10)
@@ -154,7 +154,7 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
          double speed = minMissileSpeed + ((rngLehmer.rand8()%(int)(missileSpeed*10))/(double)15);
          if ( speed>missileSpeed ) { speed = missileSpeed; }
          
-         Missile * m = new Missile(sourceX,targetX,speed);
+         Missile * m = new Missile(sourceX,199,targetX,0,speed);
          vMissile.push(m);
          terminal->addSprite(m);
       }
@@ -249,6 +249,21 @@ bool Terminal_Program_MissileCommand::mouseEvent (Mouse* _mouse)
       if ( terminal->mouseX != -1 && terminal->mouseY != -1 )
       {
          std::cout<<"Missile to "<<terminal->mouseX<<", "<<terminal->mouseY<<"\n";
+         
+         
+         // unsigned int sourceX = rngLehmer.rand32()%320; // 0-319
+         // unsigned int targetX = rngLehmer.rand32()%320;
+         
+         
+         // double speed = minMissileSpeed + ((rngLehmer.rand8()%(int)(missileSpeed*10))/(double)15);
+         // if ( speed>missileSpeed ) { speed = missileSpeed; }
+         
+         Missile * m = new Missile(160,1,terminal->mouseX,terminal->mouseY,-3);
+         vMissile.push(m);
+         // vMissile.push(m);
+         terminal->addSprite(m);
+         
+         
          _mouse->isLeftClick=false;
          return true;
       }
