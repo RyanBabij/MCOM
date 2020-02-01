@@ -30,6 +30,7 @@ Sound * missileLaunch;
 Sound * missileExplode;
 Sound * missileRIP;
 Sound * cityRIP;
+Sound * missileGround;
 
    // DYNAMICALLY GENERATED HEADER FILE WITH STRING WHICH COUNTS COMPILATIONS.
 #include "CompileCount.hpp"
@@ -148,7 +149,7 @@ class QuitChecker
         FileManager::deleteDirectory(SAVE_FOLDER_PATH,true);
       }
     }
-   globalAudioPlayer.close();
+      globalAudioPlayer.close();
 
    }
 };

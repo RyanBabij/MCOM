@@ -54,7 +54,7 @@ class City: public Sprite
       if (isCollisionX(missileX) && missileY <= 1)
       {
          isDestroyed=true;
-         globalAudioPlayer.playSoundOnce(cityRIP);
+        globalAudioPlayer.playSoundOnce(cityRIP);
       }
    }
 };
@@ -188,8 +188,14 @@ class Missile: public Sprite
       
       if ( (int)currentX == targetX && (int)currentY == targetY )
       {
-         blastSize=1;
-         globalAudioPlayer.playSoundOnce(missileExplode);
+          blastSize=1;
+         if ( targetY == 0 )
+         { globalAudioPlayer.playSoundOnce(missileGround);
+         }
+         else
+         { globalAudioPlayer.playSoundOnce(missileExplode);
+         }
+         
       }
       
       y1=currentY;

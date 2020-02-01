@@ -404,7 +404,7 @@ void GL_idle()
 #endif
    }
    
-   
+   globalAudioPlayer.garbageCollect();
 }
 
 

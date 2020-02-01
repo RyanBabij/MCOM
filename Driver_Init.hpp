@@ -13,6 +13,7 @@ Initialize main menus, start timers, initialise any important data.
 
 
 
+
 void init()
 {   
   Random::seed();
@@ -56,6 +57,9 @@ void init()
    Wav wMissileExplode;
    wMissileExplode.readFile("wav/missile-explode.wav");
    
+   Wav wMissileGround;
+   wMissileGround.readFile("wav/missile-ground.wav");
+   
    Wav wMissileRip;
    wMissileRip.readFile("wav/missile-rip.wav");
    
@@ -66,8 +70,7 @@ void init()
    missileExplode=wMissileExplode.toSound();
    missileRIP=wMissileRip.toSound();
    cityRIP=wCityRip.toSound();
-   
-   //globalAudioPlayer.playSoundOnce(missileLaunch);
+   missileGround=wMissileGround.toSound();
 
    /* Start timers. */
    frameRateTimer.init();
