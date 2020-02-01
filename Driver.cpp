@@ -1,9 +1,10 @@
 /* MCOM: Driver
   
-   Main file for MCOM. Created by Ryan Babij (https://github.com/RyanBabij/BAI)
+   Main file for MCOM. Created by Ryan Babij (github.com/RyanBabij/MCOM)
   
   License:
-  All files used exclusively for BAI are copyrighted. Wildcat code is public domain.
+  All code and binaries in MCOM repo are copyrighted.
+  Wildcat code is public domain.
 */
 
 #include <string>
@@ -14,6 +15,16 @@
    // What OS we are compiling for. Currently only Windows and Linux are supported cos I don't got a Mac.
 #include <System/Windows.hpp> //#define WILDCAT_WINDOWS
 //#define WILDCAT_LINUX
+
+#define WILDCAT_AUDIO
+
+/* Audio stuffs. */
+#include <Audio/Sound.hpp> // Generic sound data handler
+#include <Audio/Wav.hpp>
+#include <Audio/AudioPlayer.hpp> // Generic audio player
+#include <Audio/AudioPlayer_OpenAL.hpp>
+/* Global OpenAL audio player. */
+AudioPlayer_OpenAL globalAudioPlayer;
 
    // DYNAMICALLY GENERATED HEADER FILE WITH STRING WHICH COUNTS COMPILATIONS.
 #include "CompileCount.hpp"

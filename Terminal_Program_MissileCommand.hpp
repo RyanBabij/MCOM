@@ -33,11 +33,10 @@ class City: public Sprite
    // texture
    // state
    // audio files
-   
+
    City()
    {
       isDestroyed=false;
-      //texture = &TEX_MCOM_CITY;
    }
    
    virtual Texture* currentTexture() override
@@ -49,20 +48,22 @@ class City: public Sprite
       return &TEX_MCOM_CITY;
    }
    
-   void getHit(const int missileX)
+   void getHit(const int missileX, const int missileY)
    {
-      if (isCollisionX(missileX))
+      if (isCollisionX(missileX) && missileY <= 1)
       {
          isDestroyed=true;
       }
    }
 };
 
+const int MAX_BLAST =11;
+
 class Missile: public Sprite
 {
    double slope;
    
-   MathVector2D <double> vector;
+   MathVector2D <double> velocity;
          
    public:
    
@@ -91,11 +92,11 @@ class Missile: public Sprite
       targetY=_targetY;
 
       // convert source,target into velocity vector.
-      vector.set(_sourceX,_sourceY,_targetX,_targetY);
-      vector.normalise();
-      vector.setMagnitude(speed);
-      std::cout<<"Vector from: "<<_sourceX<<", "<<_sourceY<<" to "<<_targetX<<", "<<_targetY<<"\n";
-      std::cout<<"Velocity: "<<vector.getXChange()<<", "<<vector.getYChange()<<"\n";
+      velocity.set(_sourceX,_sourceY,_targetX,_targetY);
+      velocity.normalise();
+      velocity.setMagnitude(speed);
+      //std::cout<<"Vector from: "<<_sourceX<<", "<<_sourceY<<" to "<<_targetX<<", "<<_targetY<<"\n";
+      //std::cout<<"Velocity: "<<vector.getXChange()<<", "<<vector.getYChange()<<"\n";
 
 
       int distanceY = _sourceY - _targetY;
@@ -148,33 +149,44 @@ class Missile: public Sprite
    
    void cycle()
    {
-      // impact and blast calculations go here
-      if ( (int)currentX == targetX && (int)currentY == targetY )
+      // explosion stuff
+      if (blastSize!=0) // if missile is exploding
       {
-         return;
-      }
-      if (currentY==0)
-      {
-         if ( blastSize != 0 )
+         if (blastSize<MAX_BLAST)
          {
             ++blastSize;
-            if (blastSize==10)
-            {
-               blastSize=0;
-            }
          }
+         else
+         {
+            
+         }
+         
+         // explosion calcs
+         
          return;
       }
       
-      currentX+=vector.getXChange();
-      currentY-=vector.getYChange();
+      // move along vector
+      currentX+=velocity.getXChange();
+      currentY+=velocity.getYChange();
       
-      if (currentY<=0)
+      // impact and blast calculations go here
+      
+      // correct coordinates to prevent overshoot.
+      if ( (velocity.xChange() >= 0 && currentX >= targetX)
+      || (velocity.xChange() <= 0 && currentX <= targetX ))
       {
-         currentY=0;
-         
-         // impact
-         ++blastSize;
+         currentX=targetX;
+      }
+      if ( (velocity.yChange() >= 0 && currentY >= targetY)
+      || (velocity.yChange() <= 0 && currentY <= targetY ))
+      {
+         currentY=targetY;
+      }
+      
+      if ( (int)currentX == targetX && (int)currentY == targetY )
+      {
+         blastSize=1;
       }
       
       y1=currentY;
@@ -194,13 +206,19 @@ class MissileBase: public Sprite
    // we may want to implement a sprite class for Terminal
    public:
    bool isDestroyed;
+   bool isLeft; // facing left
    // texture
    // state
    // audio files
    
+   unsigned char launchX,launchY; // pixel offset to launch from
+   
    MissileBase()
    {
       isDestroyed=false;
+      isLeft=true;
+      launchX = 16;
+      launchY = 5;
    }
    
    virtual Texture* currentTexture() override
@@ -209,12 +227,17 @@ class MissileBase: public Sprite
       {
          return &TEX_MCOM_MISSILE_RIP;
       }
+      if ( isLeft )
+      {
       return &TEX_MCOM_MISSILE;
+      }
+            return &TEX_MCOM_MISSILE_RIGHT;
+
    }
    
-   void getHit(const int missileX)
+   void getHit(const int missileX, const int missileY)
    {
-      if (isCollisionX(missileX))
+      if (isCollisionX(missileX) && missileY <= 1)
       {
          isDestroyed=true;
       }
@@ -267,6 +290,9 @@ class Terminal_Program_MissileCommand: public Terminal_Program
    //run the code for 1 emulated cycle returns possible output
    void cycle() override;
    //void execute(int lineNumber);
+   
+   bool launch(MissileBase* mb); // launch missile from designated launcher
+   // returns false if unable
 
    void keyboardEvent (Keyboard* _keyboard) override;
    bool mouseEvent (Mouse* _mouse) override;

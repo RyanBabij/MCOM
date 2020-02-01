@@ -16,7 +16,7 @@
 unsigned short int PROGRAM_CYCLES_PER_TICK = 1;
 
   // SYSTEM STRINGS
-const std::string VERSION = "0.0.009 Win32 dev";
+const std::string VERSION = "0.0.011 Win32 dev";
 const std::string G_WINDOW_TITLE = "MCOM";
 const std::string SAVE_FOLDER_PATH = "savedata";
 
@@ -32,14 +32,14 @@ enumMenu activeMenu = MENU_TITLE;
 
 bool HOTKEYS_ENABLED = false;
 
-bool CLEAN_SAVES_ON_EXIT = true;
+bool CLEAN_SAVES_ON_EXIT = false;
 
 /* Will output the framerate. */
 const bool OUTPUT_FRAMERATE = true;
 const int OUTPUT_FRAMERATE_SAMPLE_SIZE = 50;
 int FRAME_COUNTER=0;
 
-const bool LIMIT_FRAMERATE = true;
+const bool LIMIT_FRAMERATE = false;
 const double FRAMERATE = 60; // SETTING IT TO A REASONABLE VALUE CAN GREATLY REDUCE STRESS ON GPU
 const double POLLSPERSECOND = 60; // NOT CURRENTLY IMPLEMENTED
 double LOGIC_PER_SECOND = 30;
