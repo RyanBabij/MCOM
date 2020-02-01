@@ -26,6 +26,11 @@
 /* Global OpenAL audio player. */
 AudioPlayer_OpenAL globalAudioPlayer;
 
+Sound * missileLaunch;
+Sound * missileExplode;
+Sound * missileRIP;
+Sound * cityRIP;
+
    // DYNAMICALLY GENERATED HEADER FILE WITH STRING WHICH COUNTS COMPILATIONS.
 #include "CompileCount.hpp"
 
@@ -143,7 +148,7 @@ class QuitChecker
         FileManager::deleteDirectory(SAVE_FOLDER_PATH,true);
       }
     }
-
+   globalAudioPlayer.close();
 
    }
 };

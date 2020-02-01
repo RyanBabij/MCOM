@@ -11,6 +11,8 @@ Initialize main menus, start timers, initialise any important data.
 
 */
 
+
+
 void init()
 {   
   Random::seed();
@@ -43,6 +45,29 @@ void init()
       { std::cout<<"ERROR: Font did not load.\n"; }
       delete [] fileData;
    }
+   
+   // load audio
+   globalAudioPlayer.init();
+   globalAudioPlayer.globalVolume=25;
+      
+   Wav wMissileLaunch;
+   wMissileLaunch.readFile("wav/missile-launch.wav");
+
+   Wav wMissileExplode;
+   wMissileExplode.readFile("wav/missile-explode.wav");
+   
+   Wav wMissileRip;
+   wMissileRip.readFile("wav/missile-rip.wav");
+   
+   Wav wCityRip;
+   wCityRip.readFile("wav/city-rip.wav");
+
+   missileLaunch=wMissileLaunch.toSound();
+   missileExplode=wMissileExplode.toSound();
+   missileRIP=wMissileRip.toSound();
+   cityRIP=wCityRip.toSound();
+   
+   //globalAudioPlayer.playSoundOnce(missileLaunch);
 
    /* Start timers. */
    frameRateTimer.init();

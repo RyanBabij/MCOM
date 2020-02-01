@@ -50,9 +50,11 @@ class City: public Sprite
    
    void getHit(const int missileX, const int missileY)
    {
+      if ( isDestroyed ) { return; }
       if (isCollisionX(missileX) && missileY <= 1)
       {
          isDestroyed=true;
+         globalAudioPlayer.playSoundOnce(cityRIP);
       }
    }
 };
@@ -187,6 +189,7 @@ class Missile: public Sprite
       if ( (int)currentX == targetX && (int)currentY == targetY )
       {
          blastSize=1;
+         globalAudioPlayer.playSoundOnce(missileExplode);
       }
       
       y1=currentY;
@@ -237,9 +240,11 @@ class MissileBase: public Sprite
    
    void getHit(const int missileX, const int missileY)
    {
+      if ( isDestroyed ) { return; }
       if (isCollisionX(missileX) && missileY <= 1)
       {
          isDestroyed=true;
+         globalAudioPlayer.playSoundOnce(missileRIP);
       }
    }
 };

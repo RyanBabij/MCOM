@@ -308,6 +308,8 @@ bool Terminal_Program_MissileCommand::launch(MissileBase* mb)
    Missile * m = new Missile(mb->x1+mb->launchX,mb->y1+mb->launchY,terminal->mouseX,terminal->mouseY,5);
    vMissile.push(m);
    terminal->addSprite(m);
+   
+   globalAudioPlayer.playSoundOnce(missileLaunch);
 
    return true;
 }
