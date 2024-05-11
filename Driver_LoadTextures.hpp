@@ -36,11 +36,11 @@ static Texture TEX_TERMINAL_BKG;
 static Texture TEX_MCOM_CITY;
 static Texture TEX_MCOM_CITY_RIP;
 static Texture TEX_MCOM_MISSILE;
-static Texture TEX_MCOM_MISSILE_RIGHT;
 static Texture TEX_MCOM_MISSILE_RIP;
 
 Texture texRuntime; /* Test of runtime graphics creation. */
 Texture texMissile;
+
 
 void loadTextureVerbose(const std::string _path, Texture* _texture)
 {
@@ -76,10 +76,13 @@ void loadTextures() // Testing some multithreading here. Probably shouldn't beca
   std::thread t1( []
   {
 #endif
+      // LOAD MENU TEXTURES
+    //preloadTextureVerbose("Textures/HaruhiTerminal2.png",&TEX_TERMINAL);
+    //preloadTextureVerbose("Textures/43Grid.png",&TEX_TERMINAL_GRID);
+    //preloadTextureVerbose("Textures/Background5.png",&TEX_TERMINAL_BKG);
     preloadTextureVerbose("Textures/Game/cityt.png",&TEX_MCOM_CITY);
     preloadTextureVerbose("Textures/Game/cityript.png",&TEX_MCOM_CITY_RIP);
     preloadTextureVerbose("Textures/Game/missilet.png",&TEX_MCOM_MISSILE);
-    preloadTextureVerbose("Textures/Game/missilert.png",&TEX_MCOM_MISSILE_RIGHT);
     preloadTextureVerbose("Textures/Game/missileript.png",&TEX_MCOM_MISSILE_RIP);
 
 #if defined THREAD_ALL || defined THREADED_TEXTURE_LOADING
@@ -99,18 +102,20 @@ void loadTextures() // Testing some multithreading here. Probably shouldn't beca
   t2.join();
 #endif
 
-   bindNearestNeighbour(&TEX_MCOM_CITY,COMPRESS_TEXTURES);
-   bindNearestNeighbour(&TEX_MCOM_CITY_RIP,COMPRESS_TEXTURES);
-   bindNearestNeighbour(&TEX_MCOM_MISSILE,COMPRESS_TEXTURES);
-   bindNearestNeighbour(&TEX_MCOM_MISSILE_RIGHT,COMPRESS_TEXTURES);
-   bindNearestNeighbour(&TEX_MCOM_MISSILE_RIP,COMPRESS_TEXTURES);
-
-   texRuntime.create(320,200,0,true);
-   texMissile.create(1,1,0,true);
-   texMissile.setPixel(0,0,0,0);
-   texMissile.setPixel(0,0,1,0);
-   texMissile.setPixel(0,0,2,0);
-   texMissile.setPixel(0,0,3,255);
+  bindNearestNeighbour(&TEX_MCOM_CITY,COMPRESS_TEXTURES);
+  bindNearestNeighbour(&TEX_MCOM_CITY_RIP,COMPRESS_TEXTURES);
+  bindNearestNeighbour(&TEX_MCOM_MISSILE,COMPRESS_TEXTURES);
+  bindNearestNeighbour(&TEX_MCOM_MISSILE_RIP,COMPRESS_TEXTURES);
+  
+  //bindNearestNeighbour(&TEX_TERMINAL_GRID,COMPRESS_TEXTURES);
+  //bindNearestNeighbour(&TEX_TERMINAL_BKG,COMPRESS_TEXTURES);
+  
+  texRuntime.create(320,200,0,true);
+  texMissile.create(1,1,0,true);
+  texMissile.setPixel(0,0,0,0);
+  texMissile.setPixel(0,0,1,0);
+  texMissile.setPixel(0,0,2,0);
+  texMissile.setPixel(0,0,3,255);
 
     
 }

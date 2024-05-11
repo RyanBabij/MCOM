@@ -50,11 +50,9 @@ class City: public Sprite
    
    void getHit(const int missileX, const int missileY)
    {
-      if ( isDestroyed ) { return; }
       if (isCollisionX(missileX) && missileY <= 1)
       {
          isDestroyed=true;
-        globalAudioPlayer.playSoundOnce(cityRIP);
       }
    }
 };
@@ -188,14 +186,7 @@ class Missile: public Sprite
       
       if ( (int)currentX == targetX && (int)currentY == targetY )
       {
-          blastSize=1;
-         if ( targetY == 0 )
-         { globalAudioPlayer.playSoundOnce(missileGround);
-         }
-         else
-         { globalAudioPlayer.playSoundOnce(missileExplode);
-         }
-         
+         blastSize=1;
       }
       
       y1=currentY;
@@ -220,14 +211,10 @@ class MissileBase: public Sprite
    // state
    // audio files
    
-   unsigned char launchX,launchY; // pixel offset to launch from
-   
    MissileBase()
    {
       isDestroyed=false;
       isLeft=true;
-      launchX = 16;
-      launchY = 5;
    }
    
    virtual Texture* currentTexture() override
@@ -236,21 +223,15 @@ class MissileBase: public Sprite
       {
          return &TEX_MCOM_MISSILE_RIP;
       }
-      if ( isLeft )
-      {
-      return &TEX_MCOM_MISSILE;
-      }
-            return &TEX_MCOM_MISSILE_RIGHT;
+	return &TEX_MCOM_MISSILE;
 
    }
    
    void getHit(const int missileX, const int missileY)
    {
-      if ( isDestroyed ) { return; }
       if (isCollisionX(missileX) && missileY <= 1)
       {
          isDestroyed=true;
-         globalAudioPlayer.playSoundOnce(missileRIP);
       }
    }
 };
@@ -301,9 +282,6 @@ class Terminal_Program_MissileCommand: public Terminal_Program
    //run the code for 1 emulated cycle returns possible output
    void cycle() override;
    //void execute(int lineNumber);
-   
-   bool launch(MissileBase* mb); // launch missile from designated launcher
-   // returns false if unable
 
    void keyboardEvent (Keyboard* _keyboard) override;
    bool mouseEvent (Mouse* _mouse) override;

@@ -327,8 +327,11 @@ void GL_idle()
    {
       animationTimer.start();
 
-    ++CURRENT_ANIMATION_FRAME == 100? CURRENT_ANIMATION_FRAME=0 : 0;
-
+    //++CURRENT_ANIMATION_FRAME == 100? CURRENT_ANIMATION_FRAME=0 : 0;
+    
+    // we just use an unsigned long int so it will technically reset after 
+   // 4,294,967,295 frames which might throw some animations off
+   ++CURRENT_ANIMATION_FRAME;
     
       animationTimer.init();
    }
@@ -404,7 +407,7 @@ void GL_idle()
 #endif
    }
    
-   globalAudioPlayer.garbageCollect();
+   
 }
 
 
@@ -414,9 +417,9 @@ void GL_display()
   {
      frameRateTimer2.update();
      double varFPS = frameRateTimer2.fullSeconds;
-     std::cout<<"FPS: "<<FRAME_COUNTER/varFPS<<"\n";
-     std::cout<<"nIdles: "<<IDLE_COUNTER<<"\n";
-     std::cout<<"nFrames: "<<FRAME_COUNTER<<"\n";
+     //std::cout<<"FPS: "<<FRAME_COUNTER/varFPS<<"\n";
+     //std::cout<<"nIdles: "<<IDLE_COUNTER<<"\n";
+     //std::cout<<"nFrames: "<<FRAME_COUNTER<<"\n";
   }
   
   if (OUTPUT_FRAMERATE)

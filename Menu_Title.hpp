@@ -14,6 +14,8 @@
 #include <Game/Terminal/Terminal.cpp>
 // #include "Terminal_Program.cpp"
 
+#include <Graphics/Colour/Colour.hpp>
+
 class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTickInterface
 {
    bool intro; // display the game info
@@ -24,10 +26,10 @@ class Menu_Title: public GUI_Interface, public LogicTickInterface, public IdleTi
    int terminalFlicker;
    
    /* Colours / theme. */
-   Colour cNormal;
-   Colour cSelected;
-   Colour cDropPanel;
-   Colour cHighlight;
+   ColourRGB <unsigned char> cNormal;
+   ColourRGB <unsigned char> cSelected;
+   ColourRGB <unsigned char> cDropPanel;
+   ColourRGB <unsigned char> cHighlight;
    
    /* GUI manager. Manages all GUI controls for this menu. */
    GUI_Manager guiManager;

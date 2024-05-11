@@ -1,10 +1,7 @@
 /* MCOM: Driver
   
-   Main file for MCOM. Created by Ryan Babij (github.com/RyanBabij/MCOM)
-  
-  License:
-  All code and binaries in MCOM repo are copyrighted.
-  Wildcat code is public domain.
+   Main file for MCOM. Created by Ryan Babij (https://github.com/RyanBabij/MCOM)
+
 */
 
 #include <string>
@@ -12,25 +9,11 @@
 #define WILDCAT_USE_OPENGL
 //#define WILDCAT_USE_DIRECT3D
 
+//#define WILDCAT_AUDIO Audio currently not working.
+
    // What OS we are compiling for. Currently only Windows and Linux are supported cos I don't got a Mac.
 #include <System/Windows.hpp> //#define WILDCAT_WINDOWS
 //#define WILDCAT_LINUX
-
-#define WILDCAT_AUDIO
-
-/* Audio stuffs. */
-#include <Audio/Sound.hpp> // Generic sound data handler
-#include <Audio/Wav.hpp>
-#include <Audio/AudioPlayer.hpp> // Generic audio player
-#include <Audio/AudioPlayer_OpenAL.hpp>
-/* Global OpenAL audio player. */
-AudioPlayer_OpenAL globalAudioPlayer;
-
-Sound * missileLaunch;
-Sound * missileExplode;
-Sound * missileRIP;
-Sound * cityRIP;
-Sound * missileGround;
 
    // DYNAMICALLY GENERATED HEADER FILE WITH STRING WHICH COUNTS COMPILATIONS.
 #include "CompileCount.hpp"
@@ -149,7 +132,7 @@ class QuitChecker
         FileManager::deleteDirectory(SAVE_FOLDER_PATH,true);
       }
     }
-      globalAudioPlayer.close();
+
 
    }
 };
@@ -163,6 +146,16 @@ QuitChecker quitChecker;
 
 // This is the global font for now.
 Wildcat::Font font8x8;
+Wildcat::Font font8x8White;
+
+#include <Audio/AudioPlayer_OpenAL.hpp>
+AudioPlayer_OpenAL globalAudioPlayer;
+
+Sound * missileLaunch;
+Sound * missileExplode;
+Sound * missileRIP;
+Sound * cityRIP;
+Sound * missileGround;
 
 #include <Device/Mouse/Mouse.hpp>
 Mouse globalMouse;

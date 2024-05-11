@@ -11,8 +11,7 @@ Initialize main menus, start timers, initialise any important data.
 
 */
 
-
-
+#include <Audio/Wav.hpp>
 
 void init()
 {   
@@ -43,6 +42,9 @@ void init()
    {   
       fontPng.load(fileData,fileSize);
       if(font8x8.loadData(&fontPng,8,8)==false)
+      { std::cout<<"ERROR: Font did not load.\n"; }
+  
+      if(font8x8White.loadData(&fontPng,8,8)==false)
       { std::cout<<"ERROR: Font did not load.\n"; }
       delete [] fileData;
    }

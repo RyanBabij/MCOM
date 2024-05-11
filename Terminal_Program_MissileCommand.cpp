@@ -64,6 +64,7 @@ std::string Terminal_Program_MissileCommand::init (Vector <std::string>* vArg)
 
 void Terminal_Program_MissileCommand::cycle() // for now this is being called directly before render()
 {
+	terminal->clearScreen(true);
    if (gameOver)
    {
       std::string strTime = DataTools::toString(gameTimer.fullSeconds);
@@ -184,10 +185,28 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
             vMissile(i)=0;
       }
       
+    // //  std::cout<<".";
+        // // // std::cout<<"Pixelcolour: "<<(int)terminal->getPixel(vMissile(i)->currentX,vMissile(i)->currentY,0)<<"\n";
+      // else if (terminal->getPixel(vMissile(i)->currentX,vMissile(i)->currentY,0) == 255 )
+      // {
+                              // terminal->removeSprite(vMissile(i));
+                              // // delete trail
+                              // for (int i3=0;i3<vMissile(i)->vTrailX.size();++i3)
+                              // {
+                                 // terminal->setPixel(vMissile(i)->vTrailX(i3),vMissile(i)->vTrailY(i3)+1,BKG_R, BKG_G, BKG_B);
+                              // }
+                              // delete vMissile(i);
+                              // vMissile(i)=0;
+      // }
    }
    
    vMissile.removeNulls();
-
+  // std::cout<<"Currentmissiles: "<<vMissile.size()<<"\n";
+   
+   if (nCycle %100 == 0)
+   {      SET_ANIMATION_SPEED(ANIMATION_PER_SECOND+1);
+   }
+   
    if (nCycle %800 == 0)
    {
       ++missileIntensity;
@@ -195,6 +214,12 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
 
    }
    
+  // MAX_BLAST
+   // garbage collect missiles
+   for (int i=0;i<vMissile.size();++i)
+   {
+      //if ( vMissile.
+   }
 
    for (unsigned long int i=0;i<missileIntensity;++i)
    {
@@ -212,23 +237,65 @@ void Terminal_Program_MissileCommand::cycle() // for now this is being called di
          terminal->addSprite(m);
       }
    }
+
+   
+   // long int missileCounter = missileIntensity;
+   // while (missileCounter>0)
+   // {
+      // if ( rngLehmer.rand8() < missileIntensity )
+      // {
+         // //std::cout<<"ay\n";
+         
+         // // spawn missile at random x, travelling random trajectory. However trajectory should impact ground somewhere. We can pick a random source x and random target x.
+         
+         // unsigned int sourceX = rngLehmer.rand32()%320; // 0-319
+         // unsigned int targetX = rngLehmer.rand32()%320;
+         
+         // Missile * m = new Missile(sourceX,targetX);
+         // vMissile.push(m);
+         // terminal->addSprite(m);
+      // }
+      // missileCounter-=255;
+   // }
+   
+
+   
    return;
 }
 
 void Terminal_Program_MissileCommand::keyboardEvent (Keyboard* _keyboard)
 {
    if (!active) { return; }
+   // //std::string allowedInputs = " !@#$%^&*()\"\'\\=+-/";
    if (_keyboard->keyWasPressed)
    {
       if (_keyboard->lastKey == Keyboard::SPACE && intro)
       {
+		 // std::cout<<"Cancelling intro\n";
          terminal->putString(0,0,"                                      ");
          terminal->putString(0,2,"                                      ");
          terminal->putString(0,4,"                                      ");
+		 terminal->clearScreen(true);
+		 
+		 // This is necessary to wipe old text from the screen currently
+		 //terminal->fill(BKG_R, BKG_G, BKG_B,255);
          intro=false;
          gameTimer.start();
          _keyboard->clearAll();
       }
+      // else if (_keyboard->lastKey == Keyboard::BACKSPACE)
+      // {
+         // if ( input.size() > 0 ) { input.pop_back(); output+='\b'; }
+         // _keyboard->clearAll();
+      // }
+      // // ANSI lets us pass backspaces, so we can just return whatever keys we recieve.
+      // else if (DataTools::isAlphaNumeric(_keyboard->lastKey))
+      // {
+         // output+=_keyboard->lastKey;
+         // input+=_keyboard->lastKey;
+         // _keyboard->clearAll();
+         // return;
+      // }
    }
 }
 
@@ -238,7 +305,28 @@ void Terminal_Program_MissileCommand::keyboardEvent (Keyboard* _keyboard)
 // used to do it anyways.
 std::string Terminal_Program_MissileCommand::render()
 {
+//   terminal->fill(127,0,255,255);
+   // if ( nCycle > 100 )
+    //{
+       //terminal->fill(rngLehmer.rand8(),rngLehmer.rand8(),rngLehmer.rand8(),255);
+   // }
+
+
+   //Renderer::placeTexture4(0,0,64,32,&TEX_MCOM_CITY,true);
+
    return "AYY LMAO\n";
+   
+   
+   // //Protip: We can't necessarily return if inactive, because there may be a final render call
+   // // or batch cycles.
+   // // Intead just check if we have output to return.
+   // if ( output.size()==0 )
+   // { return ""; }
+   
+   // // return a copy of output and wipe the output string.
+   // std::string retRender = output;
+   // output="";
+   // return retRender;
 }
 
 bool Terminal_Program_MissileCommand::mouseEvent (Mouse* _mouse)
@@ -247,7 +335,7 @@ bool Terminal_Program_MissileCommand::mouseEvent (Mouse* _mouse)
    
    if ( terminal->mouseX != -1 && terminal->mouseY != -1 )
    {
-      // modify launcher direction based on hovered pixel
+
       if (terminal->mouseX < 32)
       {
          //missile1.isLeft=true;
@@ -273,24 +361,31 @@ bool Terminal_Program_MissileCommand::mouseEvent (Mouse* _mouse)
       //   missile3.isLeft=false;
       }
       
-      // launch missiles based on closest one which isn't destroyed.
       if (_mouse->isLeftClick)
       {
          if ( terminal->mouseX < 106 )
          {
-            ( launch(&missile1) || launch(&missile2) || launch(&missile3) );
+            // left
+            Missile * m = new Missile(32,20,terminal->mouseX,terminal->mouseY,5);
+            vMissile.push(m);
+            terminal->addSprite(m);
+			globalAudioPlayer.playSoundOnce(missileLaunch);
          }
          else if ( terminal->mouseX > 213 )
          {
-            ( launch(&missile3) || launch(&missile2) || launch(&missile1) );
+            // right
+            Missile * m = new Missile(288,20,terminal->mouseX,terminal->mouseY,5);
+            vMissile.push(m);
+            terminal->addSprite(m);
+			globalAudioPlayer.playSoundOnce(missileLaunch);
          }
-         else if ( terminal->mouseX < 160 ) // centre-left
+         else
          {
-            ( launch(&missile2) || launch(&missile1) || launch(&missile3) );
-         }
-         else // centre-right
-         {
-            ( launch(&missile2) || launch(&missile3) || launch(&missile1) );
+            // center
+            Missile * m = new Missile(160,20,terminal->mouseX,terminal->mouseY,5);
+            vMissile.push(m);
+            terminal->addSprite(m);
+			globalAudioPlayer.playSoundOnce(missileLaunch);
          }
          _mouse->isLeftClick=false;
          return true;
@@ -298,20 +393,6 @@ bool Terminal_Program_MissileCommand::mouseEvent (Mouse* _mouse)
       
    }
    return false;
-}
-
-// launch missile from designated launcher
-bool Terminal_Program_MissileCommand::launch(MissileBase* mb)
-{
-   if ( mb==0 || mb->isDestroyed) { return false; }
-   
-   Missile * m = new Missile(mb->x1+mb->launchX,mb->y1+mb->launchY,terminal->mouseX,terminal->mouseY,5);
-   vMissile.push(m);
-   terminal->addSprite(m);
-   
-   globalAudioPlayer.playSoundOnce(missileLaunch);
-
-   return true;
 }
 
 #endif
